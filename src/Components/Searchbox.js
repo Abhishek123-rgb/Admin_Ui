@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Searchbox = () => {
+export const Searchbox = ({handleSearchBox}) => {
   return (
     <div className='search-container'>
-        <input placeholder='search by name email or role' className='search-icon' type='text' />
+        <input placeholder='search by name email or role' onChange={(e) => handleSearchBox(e.target.value)} className='search-icon' type='text' />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Tablebody = ({ userdata, handleDelete, handleSelected, checkedvalue, setChecked }) => {
+const Tablebody = ({ userdata, handleDelete, handleSelected }) => {
   return (
     <div>
       <div className='tablebody-container'>
@@ -13,7 +13,7 @@ const Tablebody = ({ userdata, handleDelete, handleSelected, checkedvalue, setCh
         </div>
         {userdata && userdata.map((item, index) => (
           <div key={item.id} className='tablebody-row'>
-            <input onChange={(e) => {handleSelected(item.id, e.target.checked); setChecked(e.target.checked)} } checked={checkedvalue} type='checkbox' />
+            <input onChange={(e) => handleSelected(item.id, e.target.checked) } type='checkbox' />
             <p>{item.name}</p>
             <p>{item.email}</p>
             <p>{item.role}</p>

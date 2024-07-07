@@ -9,6 +9,7 @@ function App() {
 
   const [userdata, setUserData] = useState("");
   const [selectedData, setSelecteddata] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function App() {
   const fetchUserlist = async () => {
       const data = await axios.get(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`);
       setUserData(data.data);
+      setOriginalData(data.data); 
   }
 
   const handleDelete = (id) => {
@@ -36,11 +38,31 @@ function App() {
       }
   }
 
-  console.log("selectedData", selectedData);
+  const handleSearchBox = (query) => {
+    if (query === '') {
+      setUserData(originalData);
+    } else {
+      const filteredData = originalData.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.email.toLowerCase().includes(query.toLowerCase()) ||
+        item.role.toLowerCase().includes(query.toLowerCase())
+      );
+      setUserData(filteredData);
+    }
+  };
+
+  
+
+  // const handleCheckboxChange = (itemId) => {
+  //   const updatedItems = items.map(item =>
+  //     item.id === itemId ? { ...item, checked: !item.checked } : item
+  //   );
+  //   setItems(updatedItems);
+  // }; 
 
   return (
     <div className="App">
-      <Searchbox handleSelected={handleSelected} />
+      <Searchbox handleSelected={handleSelected} handleSearchBox={handleSearchBox} />
       <Tablebody checkedvalue={checked} setChecked={setChecked} handleSelected={handleSelected} handleDelete={handleDelete} userdata={userdata}/>
       <Pagination handleSelectedDeleted={handleSelectedDeleted} />
     </div>
